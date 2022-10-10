@@ -17,20 +17,8 @@ module.exports = {
   module : {
     rules: [
       {
-        test: /\.bin$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'url-loader',
-             options: {
-               encoding: false,
-               mimetype: false,
-               generator: (content) => {
-                 return content;
-               }
-             },
-           },
-         ],
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.jsx?$/, 
