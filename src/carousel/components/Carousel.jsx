@@ -43,8 +43,8 @@ const Carousel = ({items, relativeItemSize}) =>{
     }
     useEffect(()=>{
         resize()
+        
     }, [])
-    
     return (
             <Card variant = 'outlined' style = {carouselStyle} >
                 <div ref = {carouselFrame} style = {frameStyle}>

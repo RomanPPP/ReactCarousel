@@ -1,18 +1,26 @@
-import React, { useContext } from "react"
-import { SizeContext } from "../context"
+import React, { useContext, useEffect, useRef } from "react"
+import { SizeContext, ItemsContext } from "../context"
 
-const Item = () => {
+const Item = ({id}) => {
     const {size} = useContext(SizeContext)
+    const array = useContext(ItemsContext)
     const {width, height, margin} = size
+
+    const item = useRef(null)
+
     const style = {
         display : 'block',
         height : height,
         minWidth : width,
-        backgroundColor : 'black',
+        border : '1px solid black',
         marginLeft : margin,
         marginRight : margin
     }
-    return <div className = "item" style = {style}>
+
+    useEffect(() => {
+        array.push(item.current)
+    }, [])
+    return <div ref = {item} className = "item" id = {id} style = {style}>
         
     </div>
 }
