@@ -1,15 +1,16 @@
 import React, { useContext } from "react"
-import { SizeContext } from "./context"
+import { SizeContext } from "../context"
 
 const Item = () => {
     const {size} = useContext(SizeContext)
+    const {width, height, margin} = size
     const style = {
         display : 'block',
-        height : size.height*0.9,
-        minWidth : size.width * 0.8,
+        height : height,
+        minWidth : width,
         backgroundColor : 'black',
-        marginLeft : size.width * 0.2,
-        marginRight : size.width * 0.2
+        marginLeft : margin,
+        marginRight : margin
     }
     return <div className = "item" style = {style}>
         
