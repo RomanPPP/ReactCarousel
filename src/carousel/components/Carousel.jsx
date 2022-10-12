@@ -63,7 +63,6 @@ const Carousel = ({items, relativeItemSize, resizeCanvas}) =>{
             window.removeEventListener('resize', updateItemFrames)
         }
     }, [])
-    console.log('render')
     return (
             <Card variant = 'outlined' style = {carouselStyle} >
                 <div ref = {carouselFrame} style = {frameStyle}>
