@@ -1,27 +1,20 @@
-import React, { useContext, useEffect, useRef } from "react"
-import { SizeContext, ItemsContext } from "../context"
+import React, { useContext } from "react"
+import { SizeContext} from "../context"
 
-const Item = ({id, primitive}) => {
+const Item = ({id}) => {
     const {size} = useContext(SizeContext)
-    const array = useContext(ItemsContext)
+    
     const {width, height, margin} = size
-
-    const item = useRef(null)
-
+    
     const style = {
         display : 'block',
         height : height,
         minWidth : width,
         marginLeft : margin,
-        marginRight : margin,
-        border : '1px solid black'
+        marginRight: margin,
+        
     }
 
-    useEffect(() => {
-        array.push({element : item.current, primitive})
-    }, [])
-    return <div ref = {item} className = "item" id = {id} style = {style}>
-        
-    </div>
+    return <div className = "item" id = {id} style = {style}></div>
 }
 export default Item

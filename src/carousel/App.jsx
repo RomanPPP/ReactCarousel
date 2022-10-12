@@ -10,10 +10,10 @@ const SizeProvider = ({children}) =>{
 }
 
 
-const App = ({items}) =>
-
+const App = ({items, resizeCanvas, renderItems, relativeItemSize}) =>
+        <ItemsContext.Provider value = {renderItems}>
             <SizeProvider>
-                <Carousel items = {items} relativeItemSize = {{relWidth : 0.9, relHeight : 0.9}}></Carousel>
+                <Carousel items = {items} relativeItemSize = {relativeItemSize} resizeCanvas = {resizeCanvas}></Carousel>
             </SizeProvider>
-
+        </ItemsContext.Provider>
 export default App

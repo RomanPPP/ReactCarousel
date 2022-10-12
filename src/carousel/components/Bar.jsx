@@ -12,11 +12,11 @@ const Bar = ({xOffset, items}) =>{
         flexDirection : 'row',
         justifyContent : 'center',
         alignItems : 'center',
-        transform : `translateX(${xOffset * (width + 2 * margin)}px)`,
+        transform : `translateX(${xOffset * (width + 2 * margin )}px)`,
         transition: 'all 0.5s ease-in-out',
     }
     return <div className = "bar" style = {style}>
-        {items.map(item => <Item key = {item.id} id = {`item${item.id}`} primitive = {item.primitive}></Item>)}
+        {items.map(item => <Item key = {item.id} id = {`item${item.id}`}></Item>)}
     </div>
 }
 export default Bar

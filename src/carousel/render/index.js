@@ -8,7 +8,7 @@ import {m4} from 'math'
 
 const context = new GLcontextWrapper('canvas')
   
-context.resizeCanvasToDisplaySize()
+
 
 const box = createBox(3,3,3)
 const cone4 = createCone(3,5,4)
@@ -43,41 +43,45 @@ const uniforms = {
 const scale = m4.translation(0,0,3)
 
 const {gl} = context
-const canvasRect = gl.canvas.getBoundingClientRect()
+
 
 let i = 0
 const renderItems = (itemsElementsArray)=> {
     const loop = () =>{
         gl.enable(gl.SCISSOR_TEST)
+        
         i+=0.001
-        for(const item of itemsElementsArray){
-            const {element, primitive} = item
-            const rect = element.getBoundingClientRect();
+        const canvasRect = gl.canvas.getBoundingClientRect()
+        for(const item of itemsElementsArray.array){
+            const {element, primitive, color, background} = item
+            const rect = element.getBoundingClientRect()
             
             if (rect.x + rect.width  < canvasRect.x || rect.x > canvasRect.x + canvasRect.width) {
                     continue
             }
-            const width  = rect.width 
-            const height = rect.height
-            const left   = rect.left - canvasRect.x;
+            
+            const width  = rect.right - rect.left
+            const height = rect.bottom - rect.top
+            const left   = rect.left - canvasRect.left
             const bottom = gl.canvas.clientHeight - rect.bottom + canvasRect.y
-                
-            gl.viewport(left, bottom, width, height );
-            gl.scissor(left, bottom, width, height);
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            
+            gl.viewport(left, bottom, width, height )
+            gl.scissor(left, bottom, width, height)
+            gl.clearColor(...background);
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
             gl.enable(gl.CULL_FACE)
             gl.enable(gl.DEPTH_TEST)
             
-            gl.clearColor(0.1,0.1,0.1, 1);
+            
             primitiveMap[primitive].draw({
                 ...uniforms,
                 u_matrix : m4.xRotate(m4.yRotate(scale, Math.PI * i), Math.PI * i), 
-                u_color : [1,0,0,1],
+                u_color : color,
                 u_worldViewPosition : cameraMatrix}, cameraMatrix)
             
         }
         requestAnimationFrame(loop)
     }
-    requestAnimationFrame(loop)
+   return loop
 }
-export default renderItems
+export {renderItems, context}
