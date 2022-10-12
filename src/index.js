@@ -7,13 +7,16 @@ import renderItems from './carousel/render/index.js';
 import { ItemsContext } from './carousel/context/index.js';
 
 
-const items = [
-    {id : 0}, {id : 1}, {id : 2}
-]
+const names = ['cone6', 'box', 'cone4']
+
+const items = []
+for(let i = 0; i < 100; i++){
+    items.push({id : i, primitive : names[Math.floor(Math.random() * 3)]})
+}
+
 
 const itemsElementsArray = []
 const root = ReactDOM.createRoot(document.getElementById('app'));
 root.render(<ItemsContext.Provider value = {itemsElementsArray}><App items={items}></App></ItemsContext.Provider>)
-//document.addEventListener('click', loop.bind(null, itemsElementsArray))
 renderItems(itemsElementsArray)
 

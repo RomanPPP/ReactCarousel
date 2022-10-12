@@ -16,7 +16,7 @@ const Bar = ({xOffset, items}) =>{
         transition: 'all 0.5s ease-in-out',
     }
     return <div className = "bar" style = {style}>
-        {items.map(item => <Item key = {item.id} id = {`item${item.id}`}></Item>)}
+        {items.map(item => <Item key = {item.id} id = {`item${item.id}`} primitive = {item.primitive}></Item>)}
     </div>
 }
 export default Bar

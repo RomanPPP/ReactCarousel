@@ -1,5 +1,5 @@
 
-import {GLcontextWrapper, GLTF,createBoxGeometry, ProgramInfo, Drawer} from 'graphics'
+import {GLcontextWrapper, GLTF,createBox,createCone, PrimitiveRenderer, ProgramInfo, Drawer} from 'graphics'
 
 import {vert, frag} from './program.js'
 
@@ -10,9 +10,17 @@ const context = new GLcontextWrapper('canvas')
   
 context.resizeCanvasToDisplaySize()
 
-const boxData = createBoxGeometry()
-const gltf = new GLTF(boxData.gltf, boxData.binaryBuffers)
-const mesh = gltf.meshes[0]
+const box = createBox(3,3,3)
+const cone4 = createCone(3,5,4)
+const cone6 = createCone(3,5,6)
+
+const primitiveMap = {
+    'box' : new PrimitiveRenderer(box),
+    'cone4' : new PrimitiveRenderer(cone4),
+    'cone6' : new PrimitiveRenderer(cone6)
+}
+
+
 
 const programInfo = new ProgramInfo(vert, frag)
 
@@ -20,11 +28,17 @@ programInfo.setContext(context).compileShaders().createUniformSetters()
 const drawer = new Drawer()
 drawer.setContext(context)
 
-mesh.setContext(context).setDrawer(drawer).setProgramInfo(programInfo).createPrimitiveBuffers().setPrimitiveAttributes()
-
-const cameraMatrix = m4.translation(0,0,5)
+for(const name in primitiveMap){
+    primitiveMap[name].setContext(context)
+    .setDrawer(drawer)
+    .setProgramInfo(programInfo)
+    .createGeometryBuffers()
+    .setAttributes()
+}
+const cameraMatrix = m4.translation(0,0,10)
 const uniforms = {
-    u_lightWorldPosition : [1,2,10]
+    u_lightWorldPosition : [1,2,10],
+    u_ambientLight : [1,0,1,0.1]
 }
 const scale = m4.translation(0,0,3)
 
@@ -36,7 +50,8 @@ const renderItems = (itemsElementsArray)=> {
     const loop = () =>{
         gl.enable(gl.SCISSOR_TEST)
         i+=0.001
-        for(const element of itemsElementsArray){
+        for(const item of itemsElementsArray){
+            const {element, primitive} = item
             const rect = element.getBoundingClientRect();
             
             if (rect.x + rect.width  < canvasRect.x || rect.x > canvasRect.x + canvasRect.width) {
@@ -54,7 +69,7 @@ const renderItems = (itemsElementsArray)=> {
             gl.enable(gl.DEPTH_TEST)
             
             gl.clearColor(0.1,0.1,0.1, 1);
-            mesh.draw({
+            primitiveMap[primitive].draw({
                 ...uniforms,
                 u_matrix : m4.xRotate(m4.yRotate(scale, Math.PI * i), Math.PI * i), 
                 u_color : [1,0,0,1],

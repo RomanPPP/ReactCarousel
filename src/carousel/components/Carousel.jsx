@@ -52,6 +52,7 @@ const Carousel = ({items, relativeItemSize}) =>{
                 </div>
                 <div style = {buttonBarStyle}> 
                     <Button disabled = {num === 0} onClick = {scroll(1)}>Prev</Button>
+                    {`${-num + 1}/${items.length}`}
                     <Button disabled = {num === maxNum} onClick = {scroll(-1)}>Next</Button>
                 </div>
             </Card>

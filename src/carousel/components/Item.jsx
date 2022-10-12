@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react"
 import { SizeContext, ItemsContext } from "../context"
 
-const Item = ({id}) => {
+const Item = ({id, primitive}) => {
     const {size} = useContext(SizeContext)
     const array = useContext(ItemsContext)
     const {width, height, margin} = size
@@ -12,13 +12,13 @@ const Item = ({id}) => {
         display : 'block',
         height : height,
         minWidth : width,
-        border : '1px solid black',
         marginLeft : margin,
-        marginRight : margin
+        marginRight : margin,
+        border : '1px solid black'
     }
 
     useEffect(() => {
-        array.push(item.current)
+        array.push({element : item.current, primitive})
     }, [])
     return <div ref = {item} className = "item" id = {id} style = {style}>
         

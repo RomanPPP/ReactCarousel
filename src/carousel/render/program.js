@@ -43,6 +43,7 @@ in vec3 v_surfaceToLight;
 uniform float u_shininess;
 uniform vec4 u_color;
 uniform vec4 u_ambientLight;
+
 out vec4 outColor;
 
 
@@ -56,9 +57,10 @@ void main() {
   float light = dot(v_normal, surfaceToLightDirection);
   
   
-  outColor =  u_color;
+  outColor =  u_color + u_ambientLight * light ;
   outColor.rgb *= light;
-  
+
+ 
   
   
 }
