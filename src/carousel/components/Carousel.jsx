@@ -1,9 +1,10 @@
 import React, {useRef, useState, useContext, useEffect} from "react"
 
 import Button from '@mui/material/Button';
-import Bar from "./Bar.jsx"
-import { SizeContext, ItemsContext } from "../context/index.js";
 import { Card } from "@mui/material";
+
+import Bar from "./Bar.jsx"
+import { SizeContext, ItemsContext } from "../context/index.js"
 
 const frameStyle = {
     height : '90%',
@@ -25,7 +26,7 @@ const carouselStyle = {
 }
 
 const getItemFrames = (items) => items.map(item =>{
-                                    const {id, primitive} = item
+                                    const {id} = item
                                     const element = document.getElementById(`item${id}`)
                                     
                                     return {...item, element}
@@ -33,6 +34,7 @@ const getItemFrames = (items) => items.map(item =>{
 
 
 const Carousel = ({items, relativeItemSize, resizeCanvas}) =>{
+ 
     const [num, setNum] = useState(0)
     const {setSize} = useContext(SizeContext)
     const _items = useContext(ItemsContext)
@@ -64,16 +66,18 @@ const Carousel = ({items, relativeItemSize, resizeCanvas}) =>{
         }
     }, [])
     return (
-            <Card variant = 'outlined' style = {carouselStyle} >
-                <div ref = {carouselFrame} style = {frameStyle}>
-                    <Bar items = {items} xOffset = {num}></Bar>    
-                </div>
-                <div style = {buttonBarStyle}> 
-                    <Button disabled = {num === 0} onClick = {scroll(1)}>Prev</Button>
-                    {`${-num + 1}/${items.length}`}
-                    <Button disabled = {num === maxNum} onClick = {scroll(-1)}>Next</Button>
-                </div>
-            </Card>
+            
+                <Card variant = 'outlined' color = "primary" style = {carouselStyle}  className = 'carousel-window' >
+                    <div ref = {carouselFrame} style = {frameStyle}>
+                        <Bar items = {items} xOffset = {num}></Bar>    
+                    </div>
+                    <div style = {buttonBarStyle}> 
+                        <Button disabled = {num === 0} onClick = {scroll(1)} color = "secondary">Prev</Button>
+                        <div color = "primary"> {`${-num + 1}/${items.length}`} </div>
+                        <Button disabled = {num === maxNum} onClick = {scroll(-1)} color = "secondary">Next</Button>
+                    </div>
+                </Card>
+       
         )
 }
 

@@ -26,7 +26,7 @@ const programInfo = new ProgramInfo(vert, frag)
 
 programInfo.setContext(context).compileShaders().createUniformSetters()
 const drawer = new Drawer()
-drawer.setContext(context)
+drawer.setContext(context).update3DProjectionMatrix()
 
 for(const name in primitiveMap){
     primitiveMap[name].setContext(context)
@@ -84,4 +84,4 @@ const renderItems = (itemsElementsArray)=> {
     }
    return loop
 }
-export {renderItems, context}
+export {renderItems, context, drawer}

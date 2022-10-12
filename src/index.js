@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import React from 'react';
 import Bar from './carousel/components/Bar.jsx';
 import App from './carousel/App.jsx';
-import {renderItems, context} from './carousel/render/index.js';
+import {renderItems, context, drawer} from './carousel/render/index.js';
 import { ItemsContext } from './carousel/context/index.js';
 
 
@@ -21,11 +21,17 @@ for(let i = 0; i < 100; i++){
 
 
 const itemsElementsArray = {array : []}
-const root = ReactDOM.createRoot(document.getElementById('app'));
+const root = ReactDOM.createRoot(document.getElementById('app'))
+
+const updateCanvasAndProjectionMatrix = () =>{
+    context.resizeCanvasToDisplaySize()
+    drawer.update3DProjectionMatrix()
+}
+
 root.render(<App items={items}
                 renderItems = {itemsElementsArray}
                 relativeItemSize = {{relWidth : 0.9, relHeight : 0.9}}
-                resizeCanvas = {context.resizeCanvasToDisplaySize.bind(context)}
+                resizeCanvas = {updateCanvasAndProjectionMatrix}
                 >
                 
             </App>)
